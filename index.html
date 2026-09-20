@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SolarStorage - Gestão de Usinas & Baterias</title>
+    
+    <!-- Estilos CSS -->
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/components.css">
+
+    <!-- Chart.js para os gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- Header / Nav -->
+    <header class="navbar">
+        <div class="brand" style="display: flex; align-items: center; gap: 12px;">
+            <!-- Ícone SVG - Conversão Fotovoltaica -->
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0px 0px 10px rgba(245, 158, 11, 0.4));">
+                <defs>
+                    <linearGradient id="neonSolar" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#f59e0b" />
+                        <stop offset="100%" stop-color="#10b981" />
+                    </linearGradient>
+                </defs>
+                <path d="M16 2L28 9V23L16 30L4 23V9L16 2Z" fill="#0f172a" stroke="url(#neonSolar)" stroke-width="2.5" stroke-linejoin="round" />
+                <path d="M16 7.25L23.5 11.625V20.375L16 24.75L8.5 20.375V11.625Z" fill="url(#neonSolar)" opacity="0.2" />
+                <path d="M17 10L12 16.5H16.5L15 22L20 15.5H15.5L17 10Z" fill="#f59e0b" />
+            </svg>
+
+            <h2 style="font-size: 1.4rem; font-weight: 800; letter-spacing: -0.5px; color: #ffffff; margin: 0;">
+                Solar<span style="color: #f59e0b;">Storage</span>
+            </h2>
+        </div>
+
+        <div class="nav-subtitle" style="color: #94a3b8; font-size: 0.88rem; font-weight: 500;">
+            Monitoramento & Armazenamento de Energia
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- Cards de Métricas Indicadoras -->
+        <section class="metrics-container">
+            <!-- Card 1: Usinas Cadastradas -->
+            <div class="card-metric">
+                <div class="card-header">
+                    <div class="icon-wrapper icon-blue" style="background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 10px; padding: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(59, 130, 246, 0.2);">
+                        <!-- Ícone SVG - Usina / Painel Fotovoltaico Estruturado -->
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2 18L5 8H19L22 18H2Z" fill="rgba(59, 130, 246, 0.2)" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 8V18" stroke="#60a5fa" stroke-width="1.8" stroke-linecap="round"/>
+                            <path d="M6.5 13H17.5" stroke="#60a5fa" stroke-width="1.8" stroke-linecap="round"/>
+                            <path d="M12 18V22" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M7 22H17" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="19" cy="5" r="2" fill="#60a5fa"/>
+                        </svg>
+                    </div>
+                    <span class="card-title">Usinas Cadastradas</span>
+                </div>
+                <div class="card-value" id="total-usinas">0</div>
+            </div>
+
+            <!-- Card 2: Potência Solar Total -->
+            <div class="card-metric">
+                <div class="card-header">
+                    <div class="icon-wrapper icon-amber" style="background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 10px; padding: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(245, 158, 11, 0.25);">
+                        <!-- Ícone SVG - Sol Radiante & Energia -->
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="5" fill="rgba(245, 158, 11, 0.25)" stroke="#fbbf24" stroke-width="2"/>
+                            <path d="M12 2V4.5" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M12 19.5V22" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M2 12H4.5" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M19.5 12H22" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M4.93 4.93L6.7 6.7" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M17.3 17.3L19.07 19.07" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M4.93 19.07L6.7 17.3" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M17.3 6.7L19.07 4.93" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <span class="card-title">Potência Solar Total</span>
+                </div>
+                <div class="card-value">
+                    <span id="total-potencia">0.0</span> <span class="unit">kWp</span>
+                </div>
+            </div>
+
+            <!-- Card 3: Armazenamento Total -->
+            <div class="card-metric">
+                <div class="card-header">
+                    <div class="icon-wrapper icon-emerald" style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 10px; padding: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(16, 185, 129, 0.25);">
+                        <!-- Ícone SVG - Bateria Inteligente Energizada BESS -->
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="2" y="6" width="17" height="12" rx="2.5" fill="rgba(16, 185, 129, 0.2)" stroke="#34d399" stroke-width="2"/>
+                            <path d="M21 10V14" stroke="#34d399" stroke-width="2.5" stroke-linecap="round"/>
+                            <path d="M11 8.5L8 12.5H11.5L9.5 15.5L13.5 11.5H10L11 8.5Z" fill="#10b981" stroke="#34d399" stroke-width="0.5"/>
+                        </svg>
+                    </div>
+                    <span class="card-title">Armazenamento Total</span>
+                </div>
+                <div class="card-value">
+                    <span id="total-armazenamento">0.0</span> <span class="unit">kWh</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção do Gráfico Comparativo -->
+        <section class="chart-section card-box">
+            <div class="chart-header">
+                <h3>Comparativo de Potência Solar vs Armazenamento</h3>
+            </div>
+            <div class="chart-container" style="position: relative; height:300px; width:100%">
+                <canvas id="graficoUsinas"></canvas>
+            </div>
+        </section>
+
+        <!-- Formulário de Cadastro / Edição de Usina -->
+        <section class="form-section card-box">
+            <h3 id="titulo-form-usina">Cadastrar Nova Usina Solar</h3>
+            <form id="form-usina" class="grid-form">
+                <input type="hidden" id="usina-id" />
+
+                <div class="form-group">
+                    <label for="usina-nome">Nome da Usina:</label>
+                    <input type="text" id="usina-nome" placeholder="Ex: Usina Solar Sol Nascente" required>
+                </div>
+                <div class="form-group">
+                    <label for="usina-potencia">Potência (kWp):</label>
+                    <input type="number" step="0.1" id="usina-potencia" placeholder="Ex: 75.5" required>
+                </div>
+                <div class="form-group">
+                    <label for="usina-tensao">Tensão do Sistema (V):</label>
+                    <input type="number" step="0.1" id="usina-tensao" placeholder="Ex: 380" required>
+                </div>
+                <div class="form-group">
+                    <label for="usina-tipo">Tipo de Sistema:</label>
+                    <select id="usina-tipo" required>
+                        <option value="Grid-Tied (On-Grid)">Grid-Tied (On-Grid)</option>
+                        <option value="Off-Grid">Off-Grid</option>
+                        <option value="Híbrido (Backup + Grid)">Híbrido (Backup + Grid)</option>
+                    </select>
+                </div>
+
+                <!-- Seletores Encadeados UF e Cidade -->
+                <div class="form-group">
+                    <label for="usina-uf">Estado (UF):</label>
+                    <select id="usina-uf" required>
+                        <option value="" disabled selected>Selecione a UF...</option>
+                        <option value="AC">Acre</option>
+                        <option value="AL">Alagoas</option>
+                        <option value="AP">Amapá</option>
+                        <option value="AM">Amazonas</option>
+                        <option value="BA">Bahia</option>
+                        <option value="CE">Ceará</option>
+                        <option value="DF">Distrito Federal</option>
+                        <option value="ES">Espírito Santo</option>
+                        <option value="GO">Goiás</option>
+                        <option value="MA">Maranhão</option>
+                        <option value="MT">Mato Grosso</option>
+                        <option value="MS">Mato Grosso do Sul</option>
+                        <option value="MG">Minas Gerais</option>
+                        <option value="PA">Pará</option>
+                        <option value="PB">Paraíba</option>
+                        <option value="PR">Paraná</option>
+                        <option value="PE">Pernambuco</option>
+                        <option value="PI">Piauí</option>
+                        <option value="RJ">Rio de Janeiro</option>
+                        <option value="RN">Rio Grande do Norte</option>
+                        <option value="RS">Rio Grande do Sul</option>
+                        <option value="RO">Rondônia</option>
+                        <option value="RR">Roraima</option>
+                        <option value="SC">Santa Catarina</option>
+                        <option value="SP">São Paulo</option>
+                        <option value="SE">Sergipe</option>
+                        <option value="TO">Tocantins</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="usina-cidade">Cidade:</label>
+                    <select id="usina-cidade" disabled required>
+                        <option value="" disabled selected>Selecione primeiro a UF...</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="usina-data">Data de Instalação:</label>
+                    <input type="date" id="usina-data" required>
+                </div>
+
+                <div class="form-actions full-width" style="display: flex; gap: 10px;">
+                    <button type="submit" class="btn-primary" id="btn-salvar-usina">Cadastrar Usina</button>
+                    <button type="button" class="btn-secondary" id="btn-cancelar-usina" style="display: none;" onclick="resetarFormularioUsina(document.getElementById('form-usina'))">Cancelar</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Tabela de Listagem de Usinas e Baterias -->
+        <section class="table-section card-box">
+            <h3>Usinas Cadastradas e Banco de Baterias</h3>
+            <div class="table-wrapper">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Usina / Local</th>
+                            <th>Tipo</th>
+                            <th>Potência Solar</th>
+                            <th>Armazenamento Total</th>
+                            <th>Baterias Vinculadas</th>
+                            <th>Ações da Usina</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-usinas-body">
+                        <!-- Preenchido dinamicamente pelo JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal Gerenciar Bateria -->
+    <div id="modal-bateria" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3 id="titulo-modal-bateria">Gerenciar Bateria</h3>
+            <form id="form-bateria">
+                <input type="hidden" id="bateria-id" />
+                <input type="hidden" id="bateria-usina-id" />
+
+                <div class="form-group">
+                    <label for="bateria-tecnologia">Tecnologia:</label>
+                    <select id="bateria-tecnologia" required>
+                        <option value="" disabled selected>Selecione a tecnologia...</option>
+                        <option value="LiFePO4">Lítio (LiFePO4)</option>
+                        <option value="Chumbo-Ácido">Chumbo-Ácido VRLA</option>
+                        <option value="Gel">Gel</option>
+                        <option value="NMC">Lítio Níquel Manganês Cobalto (NMC)</option>
+                        <option value="LTO">Lítio Titanato (LTO)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="bateria-capacidade">Capacidade (Ah):</label>
+                    <input type="number" id="bateria-capacidade" placeholder="Ex: 100" step="0.1" min="0" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="bateria-tensao">Tensão Nominal (V):</label>
+                    <input type="number" id="bateria-tensao" placeholder="Ex: 48" step="0.1" min="0" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="bateria-dod">Profundidade de Descarga - DoD (%):</label>
+                    <input type="number" id="bateria-dod" placeholder="Ex: 80" step="0.1" min="0" max="100" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="bateria-quantidade">Quantidade:</label>
+                    <input type="number" id="bateria-quantidade" value="1" min="1" required />
+                </div>
+
+                <div class="modal-actions">
+                    <button type="submit" class="btn-primary">Salvar Bateria</button>
+                    <button type="button" class="btn-secondary" onclick="document.getElementById('modal-bateria').style.display='none'">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts do Projeto -->
+    <script src="javascript/api.js"></script>
+    <script src="javascript/chart.js"></script>
+    <script src="javascript/render.js"></script>
+    <script src="javascript/main.js"></script>
+</body>
+</html>

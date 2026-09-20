@@ -1,4 +1,4 @@
-☀️ SolarStorage Frontend — Single Page Application (SPA)
+# ☀️ SolarStorage Frontend — Single Page Application (SPA)
 
 Dashboard Single Page Application (SPA) moderno, reativo e responsivo construído em **Vanilla JS (ES6+)**, **HTML5** e **CSS3** para monitoramento em tempo real de **Usinas Fotovoltaicas** e **Sistemas BESS (Armazenamento em Baterias)**.
 
@@ -15,12 +15,13 @@ Dashboard Single Page Application (SPA) moderno, reativo e responsivo construíd
 
 ## 🎨 Funcionalidades & Diferenciais da Interface
 
-* **Padrão SPA sem Frameworks (Pure Vanilla JS):** Manipulação reativa do DOM via `Async/Await` sem nenhuma dependência de React, Vue ou Angular.
+* **Padrão SPA sem Frameworks (Pure Vanilla JS):** Manipulação reativa do DOM via `Async/Await`.
 * **Design SaaS Dark Theme:** Paleta escura técnica (`#0f172a` e `#1e293b`) com cards iluminados em neon.
 * **KPIs Indicadores:** Atualização dinâmica de totais de usinas, potência acumulada em $kWp$ e energia útil total em $kWh$.
 * **Integração Dinâmica com IBGE:** Seletores de Estado (UF) e Cidade encadeados que buscam os dados da API oficial do IBGE.
+* **Formatação Inteligente de Localidades:** Tratamento e exibição padronizada das cidades no formato `"Cidade/UF"` para melhor organização visual da tabela.
 * **Visualização Gráfica Interativa:** Comparativo de geração solar vs capacidade de armazenamento utilizando Chart.js.
-* **Badges Visuais para Auditoria:** Identificação clara dos IDs de usinas e baterias para simplificar a validação das rotas REST no Swagger.
+* **Badges Visuais para Auditoria:** Identificação clara dos IDs de usinas e baterias na tabela para simplificar os testes e a validação das rotas REST no Swagger UI.
 
 ---
 
@@ -58,7 +59,7 @@ O módulo `javascript/api.js` consome todas as rotas da API em `http://127.0.0.1
 
 ## ⚙️ Como Executar
 
-Esta aplicação **não necessita de NENHUMA etapa de compilação (*build*)**, Node.js ou dependências npm.
+Por ser construída em **Vanilla JS nativo**, esta aplicação pode ser executada diretamente no navegador, sem a necessidade de etapas de compilação (*build*), Node.js ou gerenciadores de pacotes (`npm`).
 
 1. Clone o repositório:
    ```bash
